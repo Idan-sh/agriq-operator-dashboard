@@ -31,7 +31,7 @@ export function MoistureMetricLine({ moisturePct }: { moisturePct: number }) {
 export default function SensorReadingLines({ reading: s }: { reading: SensorReading }) {
   if (s.health === "faulty") {
     return (
-      <span className="text-status-critical font-medium">
+      <span className={[readingSeverityMutedTextClass("critical"), "font-medium"].join(" ")}>
         Erratic readings - sensor may be faulty
       </span>
     );
