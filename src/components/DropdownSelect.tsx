@@ -1,5 +1,10 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+
+/** Slide + fade; same easing/duration as tooltip panels (~150ms). */
+const LISTBOX_MOTION_TRANSITION = { duration: 0.15, ease: [0.4, 0, 0.2, 1] as const };
+const LISTBOX_SLIDE_PX = 10;
 
 export type DropdownSelectOption = {
   value: string;
@@ -95,34 +100,41 @@ export default function DropdownSelect({
           aria-hidden
         />
       </button>
-      {isOpen ? (
-        <ul
-          id={listboxId}
-          role="listbox"
-          className="border-border bg-card absolute left-0 right-0 top-full z-30 mt-1 max-h-60 overflow-auto rounded-control border py-1 shadow-panel"
-        >
-          {options.map((opt) => {
-            const selected = opt.value === value;
-            return (
-              <li key={opt.value} role="presentation" className="m-0 list-none p-0">
-                <button
-                  type="button"
-                  role="option"
-                  aria-selected={selected}
-                  data-value={opt.value}
-                  onClick={handleOptionClick}
-                  className={[
-                    "text-foreground hover:bg-accent-soft w-full cursor-pointer px-3 py-2 text-left text-sm transition-colors",
-                    selected ? "bg-accent-soft font-medium" : "font-normal"
-                  ].join(" ")}
-                >
-                  {opt.label}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
+      <AnimatePresence>
+        {isOpen ? (
+          <motion.ul
+            key={listboxId}
+            id={listboxId}
+            role="listbox"
+            initial={{ opacity: 0, y: -LISTBOX_SLIDE_PX }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -LISTBOX_SLIDE_PX }}
+            transition={LISTBOX_MOTION_TRANSITION}
+            className="border-border bg-card absolute left-0 right-0 top-full z-30 mt-1 max-h-60 overflow-auto rounded-control border py-1 shadow-panel"
+          >
+            {options.map((opt) => {
+              const selected = opt.value === value;
+              return (
+                <li key={opt.value} role="presentation" className="m-0 list-none p-0">
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={selected}
+                    data-value={opt.value}
+                    onClick={handleOptionClick}
+                    className={[
+                      "text-foreground hover:bg-accent-soft w-full cursor-pointer px-3 py-2 text-left text-sm transition-colors",
+                      selected ? "bg-accent-soft font-medium" : "font-normal"
+                    ].join(" ")}
+                  >
+                    {opt.label}
+                  </button>
+                </li>
+              );
+            })}
+          </motion.ul>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
