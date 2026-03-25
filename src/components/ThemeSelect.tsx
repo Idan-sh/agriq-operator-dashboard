@@ -38,7 +38,11 @@ export default function ThemeSelect() {
               aria-pressed={selected}
               aria-label={label}
               title={label}
-              className="relative z-10 flex min-w-[2.5rem] items-center justify-center rounded-control px-2.5 py-2 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-w-[2.75rem] sm:px-3"
+              className={`relative z-10 flex min-w-[2.5rem] items-center justify-center rounded-control px-2.5 py-2 outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-w-[2.75rem] sm:px-3 ${
+                selected
+                  ? 'ring-1 ring-transparent hover:ring-accent/40'
+                  : 'hover:bg-background/85 dark:hover:bg-background/50'
+              }`}
               whileTap={{ scale: 0.88 }}
               transition={{ type: 'spring', stiffness: 520, damping: 32 }}
             >
