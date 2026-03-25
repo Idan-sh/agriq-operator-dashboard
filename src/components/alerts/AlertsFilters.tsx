@@ -1,9 +1,6 @@
 import { ChevronDown, ListFilter } from "lucide-react";
 import { useCallback, useId, useMemo, useState, type ChangeEvent } from "react";
-import {
-  areAlertsFiltersEqual,
-  type AlertsTableFilterState
-} from "../../domain/alertOrdering";
+import { areAlertsFiltersEqual, type AlertsTableFilterState } from "../../domain/alertOrdering";
 import type { AlertSeverity } from "../../types";
 import { getStatusPillToneClasses } from "../../ui/statusPill";
 
@@ -20,6 +17,14 @@ const FILTER_TILE_CLASS_NAME =
 
 const FILTER_BULK_BTN_CLASS_NAME =
   "text-foreground bg-card/80 hover:bg-card rounded-control px-2.5 py-1.5 text-xs font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+
+/** Inset vertical rule between Severity and Location on large viewports (centered in the grid gap). */
+const LOCATION_COLUMN_GUTTER_RULE_CLASS_NAME = [
+  "relative flex min-w-0 flex-col gap-2",
+  "before:hidden lg:before:pointer-events-none lg:before:absolute lg:before:-left-3",
+  "lg:before:top-3 lg:before:bottom-3 lg:before:block lg:before:w-px lg:before:bg-border",
+  "lg:before:content-['']"
+].join(" ");
 
 /** Short horizontal rule inset from the panel content edges (not full-bleed). */
 function FilterInsetRule({ className }: { className?: string }) {
@@ -117,12 +122,8 @@ export default function AlertsFilters({
   );
 
   const handleResetFilters = useCallback(() => {
-    onChange({
-      severities: new Set<AlertSeverity>(["critical", "warning"]),
-      pileIds: new Set(pileOptions.map((p) => p.pileId)),
-      sensorIds: new Set(sensorIdsSorted)
-    });
-  }, [onChange, pileOptions, sensorIdsSorted]);
+    onChange(defaultFilters);
+  }, [defaultFilters, onChange]);
 
   const handleSeveritySelectAll = useCallback(() => {
     onChange({
@@ -217,40 +218,40 @@ export default function AlertsFilters({
                     />
                   </div>
                   <div className="flex flex-wrap gap-2">
-                      <label className={FILTER_TILE_CLASS_NAME}>
-                        <input
-                          type="checkbox"
-                          data-severity="critical"
-                          checked={filters.severities.has("critical")}
-                          onChange={handleSeverityChange}
-                          className="border-border accent-accent size-3.5 rounded"
-                        />
-                        <span
-                          className={[
-                            "rounded-full border px-2 py-0.5 text-xs font-medium",
-                            getStatusPillToneClasses("critical")
-                          ].join(" ")}
-                        >
-                          Critical
-                        </span>
-                      </label>
-                      <label className={FILTER_TILE_CLASS_NAME}>
-                        <input
-                          type="checkbox"
-                          data-severity="warning"
-                          checked={filters.severities.has("warning")}
-                          onChange={handleSeverityChange}
-                          className="border-border accent-accent size-3.5 rounded"
-                        />
-                        <span
-                          className={[
-                            "rounded-full border px-2 py-0.5 text-xs font-medium",
-                            getStatusPillToneClasses("warn")
-                          ].join(" ")}
-                        >
-                          Warning
-                        </span>
-                      </label>
+                    <label className={FILTER_TILE_CLASS_NAME}>
+                      <input
+                        type="checkbox"
+                        data-severity="critical"
+                        checked={filters.severities.has("critical")}
+                        onChange={handleSeverityChange}
+                        className="border-border accent-accent size-3.5 rounded"
+                      />
+                      <span
+                        className={[
+                          "rounded-full border px-2 py-0.5 text-xs font-medium",
+                          getStatusPillToneClasses("critical")
+                        ].join(" ")}
+                      >
+                        Critical
+                      </span>
+                    </label>
+                    <label className={FILTER_TILE_CLASS_NAME}>
+                      <input
+                        type="checkbox"
+                        data-severity="warning"
+                        checked={filters.severities.has("warning")}
+                        onChange={handleSeverityChange}
+                        className="border-border accent-accent size-3.5 rounded"
+                      />
+                      <span
+                        className={[
+                          "rounded-full border px-2 py-0.5 text-xs font-medium",
+                          getStatusPillToneClasses("warn")
+                        ].join(" ")}
+                      >
+                        Warning
+                      </span>
+                    </label>
                   </div>
                 </div>
               </fieldset>
@@ -259,14 +260,7 @@ export default function AlertsFilters({
 
               <fieldset className="m-0 min-w-0 border-0 p-0">
                 <legend className="sr-only">Location</legend>
-                <div
-                  className={[
-                    "relative flex min-w-0 flex-col gap-2",
-                    "before:hidden lg:before:pointer-events-none lg:before:absolute lg:before:-left-3",
-                    "lg:before:top-3 lg:before:bottom-3 lg:before:block lg:before:w-px lg:before:bg-border",
-                    "lg:before:content-['']"
-                  ].join(" ")}
-                >
+                <div className={LOCATION_COLUMN_GUTTER_RULE_CLASS_NAME}>
                   <div className={FILTER_SECTION_HEADER_CLASS_NAME}>
                     <span className={FILTER_SECTION_TITLE_CLASS_NAME}>Location</span>
                     <FilterBulkSelect
@@ -276,18 +270,18 @@ export default function AlertsFilters({
                     />
                   </div>
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                      {pileOptions.map(({ pileId, pileName }) => (
-                        <label key={pileId} className={FILTER_TILE_CLASS_NAME}>
-                          <input
-                            type="checkbox"
-                            data-pile-id={pileId}
-                            checked={filters.pileIds.has(pileId)}
-                            onChange={handlePileChange}
-                            className="border-border accent-accent size-3.5 shrink-0 rounded"
-                          />
-                          <span className="text-foreground truncate">{pileName}</span>
-                        </label>
-                      ))}
+                    {pileOptions.map(({ pileId, pileName }) => (
+                      <label key={pileId} className={FILTER_TILE_CLASS_NAME}>
+                        <input
+                          type="checkbox"
+                          data-pile-id={pileId}
+                          checked={filters.pileIds.has(pileId)}
+                          onChange={handlePileChange}
+                          className="border-border accent-accent size-3.5 shrink-0 rounded"
+                        />
+                        <span className="text-foreground truncate">{pileName}</span>
+                      </label>
+                    ))}
                   </div>
                 </div>
               </fieldset>
@@ -310,21 +304,21 @@ export default function AlertsFilters({
                     list.
                   </p>
                   <div className="bg-card/45 grid max-h-36 grid-cols-4 gap-x-2 gap-y-1.5 overflow-y-auto rounded-surface p-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10">
-                      {sensorIdsSorted.map((sid) => (
-                        <label
-                          key={sid}
-                          className="text-foreground hover:bg-card/80 flex cursor-pointer items-center gap-1.5 rounded px-1 py-0.5 font-mono text-[0.7rem] leading-none"
-                        >
-                          <input
-                            type="checkbox"
-                            data-sensor-id={sid}
-                            checked={filters.sensorIds.has(sid)}
-                            onChange={handleSensorChange}
-                            className="border-border accent-accent size-3 shrink-0 rounded"
-                          />
-                          {sid}
-                        </label>
-                      ))}
+                    {sensorIdsSorted.map((sid) => (
+                      <label
+                        key={sid}
+                        className="text-foreground hover:bg-card/80 flex cursor-pointer items-center gap-1.5 rounded px-1 py-0.5 font-mono text-[0.7rem] leading-none"
+                      >
+                        <input
+                          type="checkbox"
+                          data-sensor-id={sid}
+                          checked={filters.sensorIds.has(sid)}
+                          onChange={handleSensorChange}
+                          className="border-border accent-accent size-3 shrink-0 rounded"
+                        />
+                        {sid}
+                      </label>
+                    ))}
                   </div>
                 </div>
               </fieldset>

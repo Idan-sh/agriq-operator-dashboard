@@ -177,6 +177,9 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
 
   const defaultFilters = useMemo(() => buildDefaultAlertsFilters(alerts), [alerts]);
 
+  /** Same order as defaults (Set preserves insertion order from sorted ids). */
+  const sensorIdsSorted = useMemo(() => [...defaultFilters.sensorIds], [defaultFilters]);
+
   /** Single object so toggling the same column always flips `dir` in one update (no nested setState). */
   const [sortState, setSortState] = useState<{
     column: AlertSortColumn;
@@ -192,14 +195,6 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
       .map(([pileId, pileName]) => ({ pileId, pileName }))
       .sort((a, b) => a.pileName.localeCompare(b.pileName, undefined, { sensitivity: "base" }));
   }, [alerts]);
-
-  const sensorIdsSorted = useMemo(
-    () =>
-      [...new Set(alerts.flatMap((a) => a.sensorIds))].sort((a, b) =>
-        a.localeCompare(b, undefined, { numeric: true })
-      ),
-    [alerts]
-  );
 
   const filteredAlerts = useMemo(() => filterAlertsTable(alerts, filters), [alerts, filters]);
 

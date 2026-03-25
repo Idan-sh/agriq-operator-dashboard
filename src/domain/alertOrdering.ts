@@ -53,17 +53,17 @@ export function sortAlertsByColumn(
 }
 
 export type AlertsTableFilterState = {
-  /** If empty, all severities pass. */
+  /** Empty set matches no rows; full set from defaults means all severities included. */
   severities: Set<AlertSeverity>;
-  /** If empty, all piles pass. */
+  /** Empty set matches no rows; full set means all piles included. */
   pileIds: Set<string>;
-  /** If empty, all sensors pass. If non-empty, alert must include at least one selected sensor. */
+  /** Empty set matches no rows; full set means all sensors included. Alert must include at least one selected sensor when non-empty. */
   sensorIds: Set<string>;
 };
 
 /**
  * Filter alerts by severity, pile, and sensor involvement.
- * Empty sets mean "none selected" (no rows match), except use full sets from the UI when showing all.
+ * Any empty set yields no matches (operators must keep each dimension non-empty for rows to show).
  */
 export function filterAlertsTable(
   alerts: OperatorAlert[],
