@@ -78,7 +78,7 @@ export default function SitesPage() {
   const siteOptions = useMemo(() => sites.map((s) => ({ value: s.id, label: s.name })), [sites]);
 
   return (
-    <div>
+    <div className="mb-8">
       <h1 className="text-foreground mb-2 text-2xl font-semibold tracking-tight">Sites</h1>
       <p className="text-muted-foreground mb-4 max-w-2xl text-base">
         <span className="text-foreground font-medium">Storage site</span> is the facility. One{" "}

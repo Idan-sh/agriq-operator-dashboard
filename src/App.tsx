@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Outlet } from "react-router-dom";
+import AppFooter from "./components/AppFooter";
 import MainNav from "./components/MainNav";
 import ThemeSelect from "./components/ThemeSelect";
 import { getActiveAlerts } from "./data/mockData";
@@ -36,6 +37,7 @@ export default function App() {
       >
         <Outlet />
       </main>
+      <AppFooter />
     </div>
   );
 }

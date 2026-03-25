@@ -6,7 +6,7 @@ export default function AlertsPage() {
   const alerts = useMemo(() => getActiveAlerts(), []);
 
   return (
-    <div>
+    <div className="mb-8">
       <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
         <div>
           <h1 className="text-foreground text-2xl font-semibold tracking-tight">Alerts</h1>
