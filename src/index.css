@@ -3,9 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Inter - common for analytics / operator dashboards; loaded from Google Fonts in index.html */
+  /* Inter - UI body; Space Grotesk - app bar product wordmark (see index.html) */
   --font-sans:
     Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  --font-display:
+    'Space Grotesk', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol';
 
   --color-background: var(--app-bg);
@@ -20,6 +23,13 @@
   --color-status-ok: var(--app-status-ok);
   --color-status-warn: var(--app-status-warn);
   --color-status-critical: var(--app-status-critical);
+
+  /* Semantic radii and elevation - see .cursor/rules/design-ui.mdc */
+  --radius-control: 0.375rem;
+  --radius-surface: 0.5rem;
+  --radius-panel: 0.75rem;
+  /* Matches default `shadow-sm` - page-level panels and header controls */
+  --shadow-panel: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
 :root {

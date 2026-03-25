@@ -1,0 +1,58 @@
+---
+description: UI consistency - radii, elevation, typography, colors, spacing for this app
+alwaysApply: false
+---
+
+# UI design system (agriQ Operator Dashboard)
+
+Semantic tokens live in [`src/index.css`](src/index.css). Use **named** Tailwind utilities that map to those tokens (e.g. `rounded-panel`, `shadow-panel`) instead of mixing arbitrary `rounded-xl` / `shadow-sm` unless you add a new tier here.
+
+## Border radius
+
+| Token | Utility | Use |
+|-------|---------|-----|
+| `--radius-control` | `rounded-control` | Compact controls: nav links, skip link, theme segment inner |
+| `--radius-surface` | `rounded-surface` | List rows, dense tiles, nested controls in a shell |
+| `--radius-panel` | `rounded-panel` | Primary page cards, theme picker shell, alert articles |
+| (full) | `rounded-full` | Status and count chips |
+
+Rule: outer **panel** in a region may use `rounded-panel`; inner tiles **one step smaller** (`rounded-surface`) is intentional.
+
+## Elevation
+
+| Token | Utility | Use |
+|-------|---------|-----|
+| `--shadow-panel` | `shadow-panel` | Page-level cards, header-adjacent controls (theme picker, alert cards) |
+| (none) | omit shadow | Dense grids (sensor matrix), flat list rows |
+
+## Typography
+
+- **Page `h1`**: `text-2xl font-semibold tracking-tight text-foreground` (always set size; do not rely on heading defaults).
+- **Section heading** (e.g. sidebar "Storage piles", layer titles): `text-base font-medium`.
+- **Panel / card title** (e.g. alert headline): `text-lg font-medium`.
+- **Detail title** (selected pile name): `text-xl font-medium tracking-tight`.
+- **Lead / intro**: `text-base text-muted-foreground`.
+- **UI body**: `text-sm` in cards and chrome.
+- **Caption / meta**: `text-xs text-muted-foreground`.
+- **IDs / codes**: `font-mono text-xs font-semibold`.
+- **App bar product name**: `font-display text-3xl font-bold tracking-tight` (Space Grotesk, separate from body Inter).
+
+Weights: **medium** for labels and emphasis in prose; **semibold** for mono IDs and numeric badges where tabular emphasis helps; **bold** for the header wordmark only.
+
+## Color roles
+
+- **Chrome**: `border-border`, `bg-background`, `bg-card`, `text-foreground`, `text-muted-foreground`.
+- **Selected / active** (nav, pile row): `border-accent`, `bg-accent-soft`, `text-foreground`. Optional selection hint: `ring-1 ring-accent/30` only where selection must be visible without focus (e.g. pile list).
+- **Focus**: `focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background` (do not replace with selection ring).
+- **Metric readings** (temperature / moisture by band): `text-status-*` + `font-medium` only (see [`src/domain/sensorThresholds.ts`](src/domain/sensorThresholds.ts)); no fill.
+- **Status pill** (badges, severity chips): fill `bg-status-*/15`, border `border-status-*/40`, text `text-status-*`, plus `border` (1px). Shared helper: [`src/ui/statusPill.ts`](src/ui/statusPill.ts).
+- **Status banner / card** (tinted container): border `border-status-*/50`, fill `bg-status-*/10`, neutral outer border `border-border` on the card frame.
+
+## Structural borders
+
+- **Meta callout** (notes, legends): `border-l-2 border-border pl-3` (single pattern for left-accent strips).
+
+## Spacing
+
+- **Page gutter**: `px-5` on main; max width `max-w-6xl` on content column.
+- **Major vertical rhythm**: `gap-8` / `mb-8` between sections; `gap-4` in stacks; `gap-2` in tight lists.

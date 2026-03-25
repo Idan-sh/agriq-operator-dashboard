@@ -6,7 +6,8 @@ import {
   readingSeverityTextClass
 } from "../domain/sensorThresholds";
 import { getPileById, getPiles } from "../data/mockData";
-import type { PileMock, PileStatus, SensorLayer, SensorReading } from "../types";
+import type { PileMock, SensorLayer, SensorReading } from "../types";
+import { getStatusPillToneClasses, pileStatusToTone } from "../ui/statusPill";
 
 function TemperatureMetricLine({ celsius }: { celsius: number }) {
   const severity = getTemperatureSeverity(celsius);
@@ -32,19 +33,6 @@ function MoistureMetricLine({ moisturePct }: { moisturePct: number }) {
   );
 }
 
-function statusBadgeClass(status: PileStatus): string {
-  switch (status) {
-    case "OK":
-      return "bg-status-ok/15 text-status-ok border-status-ok/40";
-    case "Warning":
-      return "bg-status-warn/15 text-status-warn border-status-warn/40";
-    case "Critical":
-      return "bg-status-critical/15 text-status-critical border-status-critical/40";
-    default:
-      return "border-border text-muted-foreground";
-  }
-}
-
 /** Two stacked lines avoid bad wraps (e.g. “moisture” alone) in narrow sensor tiles. */
 function SensorReadingLines({ reading: s }: { reading: SensorReading }) {
   if (s.health === "faulty") {
@@ -66,7 +54,7 @@ function SensorReadingLines({ reading: s }: { reading: SensorReading }) {
 }
 
 function sensorCardClass(s: SensorReading): string {
-  const base = "border-border rounded-lg border p-3 text-left text-sm transition-colors";
+  const base = "border-border rounded-surface border p-3 text-left text-sm transition-colors";
   if (s.health === "faulty") {
     return `${base} border-status-critical/60 bg-status-critical/10`;
   }
@@ -114,7 +102,7 @@ function PileList({ piles, selectedId, onPileSelect }: PileListProps) {
                 data-pile-id={p.id}
                 aria-pressed={selected}
                 className={[
-                  "border-border w-full rounded-lg border px-4 py-3 text-left transition-colors",
+                  "border-border w-full rounded-surface border px-4 py-3 text-left transition-colors",
                   "focus-visible:ring-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                   selected
                     ? "border-accent bg-accent-soft ring-accent/30 ring-1"
@@ -126,7 +114,7 @@ function PileList({ piles, selectedId, onPileSelect }: PileListProps) {
                   <span
                     className={[
                       "rounded-full border px-2 py-0.5 text-xs font-medium",
-                      statusBadgeClass(p.status)
+                      getStatusPillToneClasses(pileStatusToTone(p.status))
                     ].join(" ")}
                   >
                     {p.status}
@@ -199,7 +187,7 @@ export default function SitesPage() {
 
   return (
     <div>
-      <h1 className="text-foreground mb-2">Sites</h1>
+      <h1 className="text-foreground mb-2 text-2xl font-semibold tracking-tight">Sites</h1>
       <p className="text-muted-foreground mb-4 max-w-2xl text-base">
         Each cell holds four wheat piles. Select a pile to see all thirty sensor balls (bottom,
         middle, top). Highlighted tiles flag sensors that need attention.

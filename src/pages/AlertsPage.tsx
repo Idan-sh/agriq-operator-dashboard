@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { getActiveAlerts } from '../data/mockData'
 import type { AlertSeverity } from '../types'
+import { alertSeverityToTone, getStatusPillToneClasses } from '../ui/statusPill'
 
 function severityStyles(severity: AlertSeverity): string {
   if (severity === 'critical') {
@@ -18,7 +19,7 @@ export default function AlertsPage() {
 
   return (
     <div>
-      <h1 className="text-foreground mb-2">Alerts</h1>
+      <h1 className="text-foreground mb-2 text-2xl font-semibold tracking-tight">Alerts</h1>
       <p className="text-muted-foreground mb-8 max-w-2xl text-base">
         Active issues across all piles. Read the next steps first, then act.
       </p>
@@ -36,7 +37,7 @@ export default function AlertsPage() {
             <article
               key={alert.id}
               className={[
-                'border-border rounded-xl border p-5 shadow-sm',
+                'border-border rounded-panel border p-5 shadow-panel',
                 severityStyles(alert.severity),
               ].join(' ')}
             >
@@ -51,10 +52,8 @@ export default function AlertsPage() {
                 </div>
                 <span
                   className={[
-                    'rounded-full border px-2.5 py-1 text-xs font-semibold',
-                    alert.severity === 'critical'
-                      ? 'border-status-critical/50 text-status-critical'
-                      : 'border-status-warn/50 text-status-warn',
+                    'rounded-full border px-2.5 py-1 text-xs font-medium',
+                    getStatusPillToneClasses(alertSeverityToTone(alert.severity)),
                   ].join(' ')}
                 >
                   {severityLabel(alert.severity)}
