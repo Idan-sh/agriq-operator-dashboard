@@ -82,7 +82,7 @@ export default function SitesPage() {
         or faulty health.
       </p>
       <p className="text-muted-foreground mb-8 max-w-2xl border-border border-l-2 pl-3 text-xs leading-relaxed">
-        <span className="text-foreground font-medium">How to read the numbers</span> — Each
+        <span className="text-foreground font-medium">How to read the numbers</span> - Each
         temperature and moisture value is checked against safe limits. Stronger-looking text means a
         more serious reading. On desktop, hover a value to open a short label (OK, warning, or
         critical). The value is underlined with dots and uses a help cursor. Sensors that need

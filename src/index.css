@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -15,11 +15,11 @@
 @theme {
   /* Inter - UI body; Space Grotesk - app bar product wordmark (see index.html) */
   --font-sans:
-    Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
+    Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   --font-display:
-    'Space Grotesk', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
+    "Space Grotesk", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
 
   --color-background: var(--app-bg);
   --color-foreground: var(--app-fg);
@@ -42,32 +42,38 @@
   --shadow-panel: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
+/*
+ * Warm stone neutrals (no cool gray / blue cast). Accent: forest green - reads clearly green,
+ * not teal/cyan (which often looks “blue” on displays).
+ */
 :root {
-  --app-bg: #ffffff;
-  --app-fg: #08060d;
-  --app-muted: #6b6375;
-  --app-border: #e5e4e7;
-  --app-accent: #aa3bff;
-  --app-accent-soft: rgba(170, 59, 255, 0.12);
-  --app-card: #f4f3ec;
-  --app-code: #f4f3ec;
-  --app-status-ok: #15803d;
-  --app-status-warn: #a16207;
-  --app-status-critical: #b91c1c;
+  /* Stronger separation: darker canvas vs white cards; darker type + borders. */
+  --app-bg: #f5f5f4;
+  --app-fg: #0c0a09;
+  --app-muted: #57534e;
+  --app-border: #d6d3d1;
+  --app-accent: #15803d;
+  --app-accent-soft: rgba(21, 128, 61, 0.2);
+  --app-card: #ffffff;
+  --app-code: #e7e5e4;
+  --app-status-ok: #14532d;
+  --app-status-warn: #9a3412;
+  --app-status-critical: #991b1b;
   color-scheme: light;
 }
 
 .dark {
-  --app-bg: #16171d;
-  --app-fg: #f3f4f6;
-  --app-muted: #9ca3af;
-  --app-border: #2e303a;
-  --app-accent: #c084fc;
-  --app-accent-soft: rgba(192, 132, 252, 0.18);
-  --app-card: #1f2028;
-  --app-code: #1f2028;
+  /* Stone-900 canvas (lighter than near-black); cards one step up for depth. */
+  --app-bg: #1c1917;
+  --app-fg: #fafaf9;
+  --app-muted: #a8a29e;
+  --app-border: #44403c;
+  --app-accent: #4ade80;
+  --app-accent-soft: rgba(74, 222, 128, 0.16);
+  --app-card: #292524;
+  --app-code: #33302c;
   --app-status-ok: #4ade80;
-  --app-status-warn: #facc15;
+  --app-status-warn: #fbbf24;
   --app-status-critical: #f87171;
   color-scheme: dark;
 }

@@ -9,24 +9,20 @@ import Tooltip from "../Tooltip";
 
 export function TemperatureMetricLine({ celsius }: { celsius: number }) {
   const severity = getTemperatureSeverity(celsius);
-  const tip = `${celsius}°C — ${readingSeverityLevelLabel(severity)} (temperature)`;
+  const tip = `${celsius}°C - ${readingSeverityLevelLabel(severity)} (temperature)`;
   return (
     <div className={`min-h-5 leading-5 tabular-nums ${readingSeverityMutedTextClass(severity)}`}>
-      <Tooltip content={tip}>
-        {celsius}°C
-      </Tooltip>
+      <Tooltip content={tip}>{celsius}°C</Tooltip>
     </div>
   );
 }
 
 export function MoistureMetricLine({ moisturePct }: { moisturePct: number }) {
   const severity = getMoistureSeverity(moisturePct);
-  const tip = `${moisturePct}% moisture — ${readingSeverityLevelLabel(severity)} (moisture)`;
+  const tip = `${moisturePct}% moisture - ${readingSeverityLevelLabel(severity)} (moisture)`;
   return (
     <div className={`min-h-5 leading-5 tabular-nums ${readingSeverityMutedTextClass(severity)}`}>
-      <Tooltip content={tip}>
-        {moisturePct}% moisture
-      </Tooltip>
+      <Tooltip content={tip}>{moisturePct}% moisture</Tooltip>
     </div>
   );
 }
