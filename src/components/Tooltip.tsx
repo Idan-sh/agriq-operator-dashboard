@@ -18,10 +18,12 @@ import {
 export type TooltipProps = {
   content: string;
   children: ReactNode;
+  /** default: dotted underline (sensor values). chrome: no underline (avatar, icon controls). */
+  variant?: "default" | "chrome";
 };
 
 /** Portal tooltip: hover on fine pointers; tap to toggle on touch; respects reduced motion. */
-export default function Tooltip({ content, children }: TooltipProps) {
+export default function Tooltip({ content, children, variant = "default" }: TooltipProps) {
   const tooltipId = useId();
   const triggerRef = useRef<HTMLSpanElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);
@@ -135,10 +137,22 @@ export default function Tooltip({ content, children }: TooltipProps) {
         role={canHover ? undefined : "button"}
         aria-describedby={open ? tooltipId : undefined}
         aria-expanded={canHover ? undefined : open}
-        className={[
-          "text-foreground underline decoration-dotted decoration-border underline-offset-2",
-          canHover ? "cursor-help" : "cursor-pointer rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        ].join(" ")}
+        aria-label={variant === "chrome" ? "User profile" : undefined}
+        className={
+          variant === "chrome"
+            ? [
+                "inline-flex shrink-0 rounded-full",
+                canHover
+                  ? "cursor-help"
+                  : "cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              ].join(" ")
+            : [
+                "text-foreground underline decoration-dotted decoration-border underline-offset-2",
+                canHover
+                  ? "cursor-help"
+                  : "cursor-pointer rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              ].join(" ")
+        }
       >
         {children}
       </span>

@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import AppFooter from "./components/AppFooter";
 import MainNav from "./components/MainNav";
 import ThemeSelect from "./components/ThemeSelect";
+import UserAvatarPlaceholder from "./components/UserAvatarPlaceholder";
 import { getActiveAlerts } from "./data/mockData";
 
 export default function App() {
@@ -28,7 +29,10 @@ export default function App() {
           </p>
           <MainNav alertCount={alertCount} alertsNavAriaLabel={alertsNavAriaLabel} />
         </div>
-        <ThemeSelect />
+        <div className="flex shrink-0 items-center gap-4">
+          <UserAvatarPlaceholder />
+          <ThemeSelect />
+        </div>
       </header>
       <main
         id="main-content"
