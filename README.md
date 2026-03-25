@@ -2,7 +2,7 @@
 
 **Task 2 - Operator Dashboard** (agriQ full-stack take-home): a React frontend that uses **mock data only** (no backend). It shows storage sites, piles, sensor readings, and alerts.
 
-![Intro — dashboard overview](./docs/screenshots/intro.png)
+<img width="1363" height="938" alt="Site Intro screenshot" src="https://github.com/user-attachments/assets/4363d402-0d29-4085-a6a0-5d58b943366b" />
 
 ## Prerequisites
 
@@ -26,23 +26,15 @@ npm install --cache ./.npm-cache
 
 ## Screenshots
 
-Add PNG or JPG files under [`docs/screenshots/`](./docs/screenshots/) with these names so the images above and below render on GitHub:
+### Sites details:   
+<img width="1363" height="938" alt="Sites details page screenshot" src="https://github.com/user-attachments/assets/424e1ead-532a-4c42-b791-4f3eed47604e" />
 
-| File | Suggested content |
-| --- | --- |
-| `intro.png` | Wide hero shot: header + main area (any theme) |
-| `sites.png` | **Sites** — site selector, piles, sensor grid |
-| `alerts.png` | **Alerts** — summary, filters, table |
+### Alerts Table:   
+<img width="1363" height="938" alt="Alerts table page screenshot" src="https://github.com/user-attachments/assets/41cc9bf3-64d0-44ef-be83-e8e2be7a1531" />
 
-Until the files exist, GitHub may show a broken image icon.
+### Filter Alerts:   
+<img width="1363" height="938" alt="Filter alerts section screenshot" src="https://github.com/user-attachments/assets/de8eee48-8714-41da-94cb-8cbfa454e707" />
 
-### Sites
-
-![Sites — storage, piles, sensors](./docs/screenshots/sites.png)
-
-### Alerts
-
-![Alerts — open issues and next steps](./docs/screenshots/alerts.png)
 
 ## Scripts
 
