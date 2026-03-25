@@ -3,14 +3,15 @@ import type { PileMock, SensorLayer, SensorReading } from "../../types";
 import SensorReadingLines from "./SensorReadingLines";
 
 function getSensorTileClassName(s: SensorReading): string {
-  const base = "border-border rounded-surface border p-3 text-left text-sm transition-colors";
+  const base =
+    "border-border rounded-surface border bg-card p-3 text-left text-sm transition-colors";
   if (s.health === "faulty") {
-    return `${base} border-status-critical/60 bg-status-critical/10`;
+    return `${base} border-l-4 border-l-status-critical bg-status-critical/10`;
   }
   if (s.health === "elevated") {
-    return `${base} border-status-warn/60 bg-status-warn/10`;
+    return `${base} border-l-4 border-l-status-warn bg-status-warn/10`;
   }
-  return `${base} bg-card`;
+  return `${base}`;
 }
 
 const LAYER_ORDER: SensorLayer[] = ["bottom", "middle", "top"];

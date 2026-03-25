@@ -1,6 +1,12 @@
 import { useCallback, type MouseEvent } from "react";
-import { type PileMock, type PileStatusFilter, PILE_STATUS_FILTER_OPTIONS } from "../../types";
-import { getStatusPillToneClasses, pileStatusToTone } from "../../ui/statusPill";
+import {
+  type PileMock,
+  type PileStatus,
+  type PileStatusFilter,
+  PILE_STATUS_FILTER_OPTIONS
+} from "../../types";
+import StatusStripePill from "../StatusStripePill";
+import { pileStatusToTone } from "../../ui/statusPill";
 import { MoistureMetricLine, TemperatureMetricLine } from "./SensorReadingLines";
 
 type SitesPileListProps = {
@@ -47,6 +53,7 @@ export default function SitesPileList({
       >
         {PILE_STATUS_FILTER_OPTIONS.map((opt) => {
           const active = statusFilter === opt.id;
+          const isStatusChip = opt.id !== "all";
           return (
             <button
               key={opt.id}
@@ -55,14 +62,28 @@ export default function SitesPileList({
               onClick={handleFilterButtonClick}
               aria-pressed={active}
               className={[
-                "border-border rounded-control border px-2.5 py-1 text-xs font-medium transition-colors",
+                "inline-flex text-xs font-medium transition-colors",
                 "focus-visible:ring-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                active
-                  ? "border-accent bg-accent-soft text-foreground"
-                  : "bg-background text-muted-foreground hover:bg-card hover:text-foreground"
+                isStatusChip
+                  ? [
+                      active
+                        ? "ring-2 ring-accent ring-offset-2 ring-offset-background"
+                        : "hover:opacity-90"
+                    ].join(" ")
+                  : [
+                      active
+                        ? "border-border rounded-surface border bg-card px-2.5 py-1.5 text-foreground ring-1 ring-border min-h-[2rem]"
+                        : "border-border rounded-surface border bg-background px-2.5 py-1.5 text-muted-foreground hover:bg-card hover:text-foreground min-h-[2rem]"
+                    ].join(" ")
               ].join(" ")}
             >
-              {opt.label}
+              {isStatusChip ? (
+                <StatusStripePill tone={pileStatusToTone(opt.id as PileStatus)} variant="filter">
+                  {opt.label}
+                </StatusStripePill>
+              ) : (
+                opt.label
+              )}
             </button>
           );
         })}
@@ -83,20 +104,13 @@ export default function SitesPileList({
                     "border-border w-full rounded-surface border px-4 py-3 text-left",
                     "focus-visible:ring-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     selected
-                      ? "border-accent bg-accent-soft ring-accent/30 ring-1"
-                      : "bg-background hover:bg-card hover:transition-colors"
+                      ? "border-border bg-card shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+                      : "border-border bg-background hover:bg-card hover:transition-colors"
                   ].join(" ")}
                 >
                   <div className="text-foreground flex items-center justify-between gap-2 font-medium">
                     {p.name}
-                    <span
-                      className={[
-                        "rounded-full border px-2 py-0.5 text-xs font-medium",
-                        getStatusPillToneClasses(pileStatusToTone(p.status))
-                      ].join(" ")}
-                    >
-                      {p.status}
-                    </span>
+                    <StatusStripePill tone={pileStatusToTone(p.status)}>{p.status}</StatusStripePill>
                   </div>
                   <div className="mt-1 text-sm">
                     <div className="text-muted-foreground mb-0.5 text-xs">Most sensors</div>

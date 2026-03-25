@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import { getStatusPillToneClasses } from "../ui/statusPill";
 
 const SEGMENT_TAP = { scale: 0.94 as const };
 const SEGMENT_TAP_TRANSITION = { type: "spring" as const, stiffness: 520, damping: 32 };
 const PILL_LAYOUT_TRANSITION = { type: "spring" as const, stiffness: 400, damping: 30 };
-const LABEL_SPRING = { type: "spring" as const, stiffness: 450, damping: 28 };
 
 type MainNavProps = {
   alertCount: number;
@@ -28,7 +26,7 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
                 "relative z-10 inline-flex min-h-[2.5rem] items-center rounded-control px-3 py-2 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-h-[2.75rem]",
                 isActive
                   ? "text-foreground ring-1 ring-transparent hover:ring-accent/40"
-                  : "text-muted-foreground hover:bg-card hover:text-foreground"
+                  : "text-foreground hover:bg-card"
               ].join(" ")
             }
           >
@@ -42,17 +40,7 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
                     aria-hidden
                   />
                 ) : null}
-                <motion.span
-                  className="relative z-10"
-                  initial={false}
-                  animate={{
-                    opacity: isActive ? 1 : 0.45,
-                    scale: isActive ? 1 : 0.92
-                  }}
-                  transition={LABEL_SPRING}
-                >
-                  Sites
-                </motion.span>
+                <span className="relative z-10">Sites</span>
               </>
             )}
           </NavLink>
@@ -67,7 +55,7 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
                 "relative z-10 inline-flex min-h-[2.5rem] items-center gap-2 rounded-control px-3 py-2 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-h-[2.75rem]",
                 isActive
                   ? "text-foreground ring-1 ring-transparent hover:ring-accent/40"
-                  : "text-muted-foreground hover:bg-card hover:text-foreground"
+                  : "text-foreground hover:bg-card"
               ].join(" ")
             }
           >
@@ -82,22 +70,10 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
                   />
                 ) : null}
                 <span className="relative z-10 flex items-center gap-2">
-                  <motion.span
-                    initial={false}
-                    animate={{
-                      opacity: isActive ? 1 : 0.45,
-                      scale: isActive ? 1 : 0.92
-                    }}
-                    transition={LABEL_SPRING}
-                  >
-                    Alerts
-                  </motion.span>
+                  <span>Alerts</span>
                   {alertCount > 0 ? (
                     <span
-                      className={[
-                        "inline-flex min-w-[1.25rem] items-center justify-center rounded-full border px-1.5 py-0.5 text-xs font-medium tabular-nums",
-                        getStatusPillToneClasses("critical")
-                      ].join(" ")}
+                      className="border-border bg-card text-muted-foreground inline-flex min-w-[1.25rem] items-center justify-center rounded-full border px-1.5 py-0.5 text-xs font-medium tabular-nums"
                       aria-hidden
                     >
                       {alertCount}

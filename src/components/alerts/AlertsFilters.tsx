@@ -2,7 +2,7 @@ import { ChevronDown, ListFilter } from "lucide-react";
 import { useCallback, useId, useMemo, useState, type ChangeEvent } from "react";
 import { areAlertsFiltersEqual, type AlertsTableFilterState } from "../../domain/alertOrdering";
 import type { AlertSeverity } from "../../types";
-import { getStatusPillToneClasses } from "../../ui/statusPill";
+import StatusStripePill from "../StatusStripePill";
 
 type PileOption = { pileId: string; pileName: string };
 
@@ -226,14 +226,7 @@ export default function AlertsFilters({
                         onChange={handleSeverityChange}
                         className="border-border accent-accent size-3.5 rounded"
                       />
-                      <span
-                        className={[
-                          "rounded-full border px-2 py-0.5 text-xs font-medium",
-                          getStatusPillToneClasses("critical")
-                        ].join(" ")}
-                      >
-                        Critical
-                      </span>
+                      <StatusStripePill tone="critical">Critical</StatusStripePill>
                     </label>
                     <label className={FILTER_TILE_CLASS_NAME}>
                       <input
@@ -243,14 +236,7 @@ export default function AlertsFilters({
                         onChange={handleSeverityChange}
                         className="border-border accent-accent size-3.5 rounded"
                       />
-                      <span
-                        className={[
-                          "rounded-full border px-2 py-0.5 text-xs font-medium",
-                          getStatusPillToneClasses("warn")
-                        ].join(" ")}
-                      >
-                        Warning
-                      </span>
+                      <StatusStripePill tone="warn">Warning</StatusStripePill>
                     </label>
                   </div>
                 </div>

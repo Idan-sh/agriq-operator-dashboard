@@ -2,7 +2,7 @@ import {
   getMoistureSeverity,
   getTemperatureSeverity,
   readingSeverityBandLabel,
-  readingSeverityTextClass
+  readingSeverityMutedTextClass
 } from "../../domain/sensorThresholds";
 import type { SensorReading } from "../../types";
 
@@ -10,7 +10,7 @@ export function TemperatureMetricLine({ celsius }: { celsius: number }) {
   const severity = getTemperatureSeverity(celsius);
   return (
     <div
-      className={`tabular-nums ${readingSeverityTextClass(severity)}`}
+      className={`tabular-nums ${readingSeverityMutedTextClass(severity)}`}
       title={`${celsius}°C - ${readingSeverityBandLabel(severity)} (temperature)`}
     >
       {celsius}°C
@@ -22,7 +22,7 @@ export function MoistureMetricLine({ moisturePct }: { moisturePct: number }) {
   const severity = getMoistureSeverity(moisturePct);
   return (
     <div
-      className={`tabular-nums ${readingSeverityTextClass(severity)}`}
+      className={`tabular-nums ${readingSeverityMutedTextClass(severity)}`}
       title={`${moisturePct}% moisture - ${readingSeverityBandLabel(severity)} (moisture)`}
     >
       {moisturePct}% moisture

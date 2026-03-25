@@ -8,7 +8,8 @@ import {
   sortAlertsByColumn
 } from "../../domain/alertOrdering";
 import type { OperatorAlert } from "../../types";
-import { alertSeverityToTone, getStatusPillToneClasses } from "../../ui/statusPill";
+import StatusStripePill from "../StatusStripePill";
+import { alertSeverityToTone } from "../../ui/statusPill";
 import AlertsFilters from "./AlertsFilters";
 
 function severityLabel(severity: OperatorAlert["severity"]): string {
@@ -34,22 +35,8 @@ function AlertsSummaryBar({ alerts }: { alerts: OperatorAlert[] }) {
       </p>
       <div className="bg-border hidden h-4 w-px sm:block" aria-hidden />
       <div className="flex flex-wrap items-center gap-3 text-xs">
-        <span
-          className={[
-            "rounded-full border px-2 py-0.5 font-medium tabular-nums",
-            getStatusPillToneClasses("critical")
-          ].join(" ")}
-        >
-          {critical} critical
-        </span>
-        <span
-          className={[
-            "rounded-full border px-2 py-0.5 font-medium tabular-nums",
-            getStatusPillToneClasses("warn")
-          ].join(" ")}
-        >
-          {warning} warning
-        </span>
+        <StatusStripePill tone="critical">{critical} critical</StatusStripePill>
+        <StatusStripePill tone="warn">{warning} warning</StatusStripePill>
       </div>
     </div>
   );
@@ -112,14 +99,12 @@ function AlertRow({ alert }: { alert: OperatorAlert }) {
   return (
     <tr className="border-border border-b transition-colors last:border-b-0 hover:bg-card/60">
       <td className={["align-top border-l-4 py-3 pl-4 pr-3", leftBorder].join(" ")}>
-        <span
-          className={[
-            "inline-flex whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-medium",
-            getStatusPillToneClasses(alertSeverityToTone(alert.severity))
-          ].join(" ")}
+        <StatusStripePill
+          tone={alertSeverityToTone(alert.severity)}
+          className="whitespace-nowrap"
         >
           {severityLabel(alert.severity)}
-        </span>
+        </StatusStripePill>
       </td>
       <td className="text-foreground align-top py-3 pr-4 text-sm font-medium">{alert.pileName}</td>
       <td className="align-top py-3 pr-4">

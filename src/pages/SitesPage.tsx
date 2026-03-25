@@ -49,19 +49,14 @@ export default function SitesPage() {
     <div>
       <h1 className="text-foreground mb-2 text-2xl font-semibold tracking-tight">Sites</h1>
       <p className="text-muted-foreground mb-4 max-w-2xl text-base">
-        Each cell holds four wheat piles. Select a pile to see all thirty sensor balls (bottom,
-        middle, top). Highlighted tiles flag sensors that need attention.
+        Each cell holds four wheat piles. Select a pile to see all thirty sensors (bottom, middle,
+        top). Warning (amber) and critical (red) tints mark sensors with elevated or faulty health.
       </p>
       <p className="text-muted-foreground mb-8 max-w-2xl border-border border-l-2 pl-3 text-xs leading-relaxed">
-        <span className="text-foreground font-medium">Reading colors</span> - Each value uses the
-        rule for that metric. Temperature:{" "}
-        <span className="text-status-ok font-medium">OK below 30°C</span>,{" "}
-        <span className="text-status-warn font-medium">warning 30-45°C</span>,{" "}
-        <span className="text-status-critical font-medium">critical above 45°C</span>. Moisture:{" "}
-        <span className="text-status-ok font-medium">OK below 14%</span>,{" "}
-        <span className="text-status-warn font-medium">warning 14-17%</span>,{" "}
-        <span className="text-status-critical font-medium">critical above 17%</span>. Hover a value
-        for the band name.
+        <span className="text-foreground font-medium">Thresholds</span> — Temperature and moisture
+        each use OK / warning / critical bands from the assignment rules. Stronger type weight on a
+        value means a higher band; hover a number for the exact band name. Problem sensors are called
+        out in the grid copy.
       </p>
 
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">

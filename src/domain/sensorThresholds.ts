@@ -32,6 +32,20 @@ export function readingSeverityTextClass(severity: ReadingSeverity): string {
   }
 }
 
+/** Muted typography for dense UIs (e.g. Sites); band still available via `title` on each value. */
+export function readingSeverityMutedTextClass(severity: ReadingSeverity): string {
+  switch (severity) {
+    case "ok":
+      return "text-muted-foreground";
+    case "warning":
+      return "text-foreground/90";
+    case "critical":
+      return "text-foreground font-medium";
+    default:
+      return "text-muted-foreground";
+  }
+}
+
 /** Short label for tooltips / aria (band name, not the raw number). */
 export function readingSeverityBandLabel(severity: ReadingSeverity): string {
   switch (severity) {

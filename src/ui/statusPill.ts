@@ -1,17 +1,28 @@
 import type { AlertSeverity, PileStatus } from '../types'
 
-/** Tone for status pill surfaces (badge / chip recipe). */
+/** Tone for status stripe pills (sensor-tile language: neutral frame + left stripe + light tint). */
 export type StatusPillTone = 'ok' | 'warn' | 'critical'
 
-/** Border + fill + text for a 1px bordered status pill (15% / 40% recipe). */
-export function getStatusPillToneClasses(tone: StatusPillTone): string {
+/**
+ * Shared class recipe for {@link StatusStripePill} and interactive parents (e.g. filter buttons).
+ */
+export function statusStripePillClassName(
+  tone: StatusPillTone,
+  variant: 'badge' | 'filter'
+): string {
+  const pad =
+    variant === 'filter' ? 'min-h-[2rem] px-2.5 py-1.5' : 'px-2 py-0.5'
+  const base = [
+    'inline-flex shrink-0 items-center rounded-surface border border-border text-xs font-medium tabular-nums',
+    pad
+  ].join(' ')
   switch (tone) {
-    case 'ok':
-      return 'bg-status-ok/15 text-status-ok border-status-ok/40'
-    case 'warn':
-      return 'bg-status-warn/15 text-status-warn border-status-warn/40'
     case 'critical':
-      return 'bg-status-critical/15 text-status-critical border-status-critical/40'
+      return `${base} border-l-4 border-l-status-critical bg-status-critical/10 text-foreground`
+    case 'warn':
+      return `${base} border-l-4 border-l-status-warn bg-status-warn/10 text-foreground`
+    case 'ok':
+      return `${base} border-l-4 border-l-status-ok bg-status-ok/10 text-status-ok`
   }
 }
 
