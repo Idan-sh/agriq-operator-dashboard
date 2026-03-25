@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
+import { PANEL_MOTION_TRANSITION } from "../ui/motionShared";
 import {
   useCallback,
   useEffect,
@@ -9,9 +10,6 @@ import {
   useState,
   type ReactNode
 } from "react";
-
-/** Fade + slight scale (common popover/tooltip pattern); Material “standard” easing, ~150ms. */
-const transition = { duration: 0.15, ease: [0.4, 0, 0.2, 1] as const };
 
 export type TooltipProps = {
   content: string;
@@ -98,7 +96,7 @@ export default function Tooltip({ content, children }: TooltipProps) {
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
-              transition={transition}
+              transition={PANEL_MOTION_TRANSITION}
             >
               <div
                 ref={innerRef}

@@ -4,17 +4,6 @@ function severityRank(s: AlertSeverity): number {
   return s === "critical" ? 0 : 1;
 }
 
-/** Critical first, then warning; same severity sorted by site then pile name. */
-export function sortAlertsBySeverityThenPile(alerts: OperatorAlert[]): OperatorAlert[] {
-  return [...alerts].sort((a, b) => {
-    const bySev = severityRank(a.severity) - severityRank(b.severity);
-    if (bySev !== 0) return bySev;
-    const bySite = a.siteName.localeCompare(b.siteName, undefined, { sensitivity: "base" });
-    if (bySite !== 0) return bySite;
-    return a.pileName.localeCompare(b.pileName, undefined, { sensitivity: "base" });
-  });
-}
-
 /** Table column sort keys (Alerts page). */
 export type AlertSortColumn = "severity" | "location" | "alert" | "sensors";
 

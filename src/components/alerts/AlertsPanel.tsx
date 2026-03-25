@@ -24,23 +24,40 @@ function severityLabel(severity: OperatorAlert["severity"]): string {
   return severity === "critical" ? "Critical" : "Warning";
 }
 
-function AlertsSummaryBar({ alerts }: { alerts: OperatorAlert[] }) {
+function AlertsSummaryBar({
+  totalAlerts,
+  displayedAlerts
+}: {
+  totalAlerts: OperatorAlert[];
+  displayedAlerts: OperatorAlert[];
+}) {
+  const totalCount = totalAlerts.length;
+  const displayedCount = displayedAlerts.length;
+  const isShowingSubset = displayedCount < totalCount;
+
   const { critical, warning } = useMemo(() => {
     let c = 0;
     let w = 0;
-    for (const a of alerts) {
+    for (const a of displayedAlerts) {
       if (a.severity === "critical") c += 1;
       else w += 1;
     }
     return { critical: c, warning: w };
-  }, [alerts]);
+  }, [displayedAlerts]);
 
   return (
     <div className="border-border bg-card mb-4 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-surface border px-4 py-3">
-      <p className="text-foreground m-0 text-sm tabular-nums">
-        <span className="font-semibold">{alerts.length}</span>{" "}
-        <span className="text-muted-foreground font-normal">active alerts</span>
-      </p>
+      <div className="flex min-w-0 flex-col gap-1">
+        <p className="text-foreground m-0 text-sm tabular-nums">
+          <span className="font-semibold">{totalCount}</span>{" "}
+          <span className="text-muted-foreground font-normal">active alerts</span>
+        </p>
+        {isShowingSubset ? (
+          <p className="text-muted-foreground m-0 text-xs tabular-nums">
+            Showing {displayedCount} of {totalCount}
+          </p>
+        ) : null}
+      </div>
       <div className="bg-border hidden h-4 w-px sm:block" aria-hidden />
       <div className="flex flex-wrap items-center gap-3 text-xs">
         <StatusStripePill tone="critical">{critical} critical</StatusStripePill>
@@ -231,7 +248,7 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
 
   return (
     <div role="region" aria-live="polite" aria-label="Active alerts">
-      <AlertsSummaryBar alerts={displayedAlerts} />
+      <AlertsSummaryBar totalAlerts={alerts} displayedAlerts={displayedAlerts} />
 
       <AlertsFilters
         pileOptions={pileOptions}
