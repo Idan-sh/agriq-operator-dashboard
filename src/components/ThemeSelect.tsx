@@ -34,7 +34,7 @@ export default function ThemeSelect() {
   return (
     <fieldset className="m-0 min-w-0 shrink-0 border-0 p-0">
       <legend className="sr-only">Color theme</legend>
-      <div className="border-border bg-card inline-flex rounded-panel border p-1 shadow-panel">
+      <div className="border-border bg-card inline-flex rounded-panel border p-0.5 shadow-panel">
         {OPTIONS.map(({ value, label, Icon }) => {
           const selected = preference === value;
           return (
@@ -46,7 +46,7 @@ export default function ThemeSelect() {
               aria-pressed={selected}
               aria-label={label}
               title={label}
-              className={`group relative z-10 flex min-w-[2.5rem] items-center justify-center rounded-control px-2.5 py-2 outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-w-[2.75rem] sm:px-3 ${
+              className={`group relative z-10 flex min-w-9 items-center justify-center rounded-control px-2 py-1.5 outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-2.5 ${
                 selected ? "" : "hover:bg-accent-soft"
               }`}
               whileTap={reducedMotion ? undefined : { scale: 0.88 }}
@@ -82,7 +82,7 @@ export default function ThemeSelect() {
                 }
               >
                 <Icon
-                  className={`size-[1.125rem] sm:size-5 ${
+                  className={`size-4 sm:size-[1.125rem] ${
                     selected ? "text-foreground" : "text-muted-foreground"
                   }`}
                   strokeWidth={selected ? 2.25 : 2}

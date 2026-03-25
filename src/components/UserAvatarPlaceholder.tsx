@@ -6,10 +6,10 @@ export default function UserAvatarPlaceholder() {
   return (
     <Tooltip content="Not signed in" variant="chrome">
       <div
-        className="border-border bg-card text-muted-foreground flex size-10 shrink-0 items-center justify-center rounded-full border shadow-panel sm:size-12"
+        className="border-border bg-card text-muted-foreground flex size-9 shrink-0 items-center justify-center rounded-full border shadow-panel sm:size-10"
         aria-hidden
       >
-        <User className="size-5 sm:size-6" strokeWidth={1.75} aria-hidden />
+        <User className="size-4 sm:size-[1.125rem]" strokeWidth={1.75} aria-hidden />
       </div>
     </Tooltip>
   );

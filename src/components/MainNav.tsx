@@ -17,10 +17,10 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
 
   return (
     <nav
-      className="border-border flex flex-wrap items-center gap-3 border-l pl-6 max-sm:w-full max-sm:border-l-0 max-sm:border-t max-sm:pt-2 max-sm:pl-0"
+      className="border-border flex flex-wrap items-center gap-2 border-l pl-4 max-sm:w-full max-sm:border-l-0 max-sm:border-t max-sm:pt-1.5 max-sm:pl-0"
       aria-label="Main"
     >
-      <div className="inline-flex flex-wrap items-center gap-3">
+      <div className="inline-flex flex-wrap items-center gap-2">
         <motion.div
           className="inline-block"
           whileTap={reducedMotion ? undefined : SEGMENT_TAP}
@@ -31,7 +31,7 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
             end
             className={({ isActive }) =>
               [
-                "group relative z-10 inline-flex min-h-[2.5rem] items-center rounded-control px-3 py-2 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-h-[2.75rem]",
+                "group relative z-10 inline-flex min-h-9 items-center rounded-control px-2.5 py-1.5 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 isActive
                   ? "text-foreground"
                   : "text-foreground hover:bg-accent-soft"
@@ -64,7 +64,7 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
             aria-label={alertsNavAriaLabel}
             className={({ isActive }) =>
               [
-                "group relative z-10 inline-flex min-h-[2.5rem] items-center gap-2 rounded-control px-3 py-2 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-h-[2.75rem]",
+                "group relative z-10 inline-flex min-h-9 items-center gap-2 rounded-control px-2.5 py-1.5 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 isActive
                   ? "text-foreground"
                   : "text-foreground hover:bg-accent-soft"
