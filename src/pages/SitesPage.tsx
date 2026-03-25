@@ -66,6 +66,10 @@ export default function SitesPage() {
     [sortedPiles]
   );
 
+  const handleShowAllPilesClick = useCallback(() => {
+    handleStatusFilterChange("all");
+  }, [handleStatusFilterChange]);
+
   const selected = useMemo(() => (selectedId ? getPileById(selectedId) : undefined), [selectedId]);
 
   const listSelectedId = selectedId ?? "";
@@ -77,16 +81,18 @@ export default function SitesPage() {
     <div>
       <h1 className="text-foreground mb-2 text-2xl font-semibold tracking-tight">Sites</h1>
       <p className="text-muted-foreground mb-4 max-w-2xl text-base">
-        Each storage site has one cell with wheat piles. Select a pile to see all thirty sensors
-        (bottom, middle, top). Warning (amber) and critical (red) tints mark sensors with elevated
-        or faulty health.
+        <span className="text-foreground font-medium">Storage site</span> is the facility. One{" "}
+        <span className="text-foreground font-medium">cell</span> is a single storage room. A{" "}
+        <span className="text-foreground font-medium">pile</span> is a grain stack in that cell.
+        Select a pile to see all thirty sensors (bottom, middle, top). Colored edges on a sensor tile
+        highlight readings that need attention (amber or red). Safe readings use a plain tile.
       </p>
       <p className="text-muted-foreground mb-8 max-w-2xl border-border border-l-2 pl-3 text-xs leading-relaxed">
-        <span className="text-foreground font-medium">How to read the numbers</span> - Each
-        temperature and moisture value is checked against safe limits. Stronger-looking text means a
-        more serious reading. On desktop, hover a value to open a short label (OK, warning, or
-        critical). The value is underlined with dots and uses a help cursor. Sensors that need
-        attention have a short message under them in the tile.
+        <span className="text-foreground font-medium">How to read the numbers</span> — Each value is
+        checked against safe limits. Stronger-looking text means a more serious reading. On a
+        computer, hover a dotted value for the band name (OK, warning, or critical). On a phone or
+        tablet, tap the value instead. Sensors that need attention may show a short message in the
+        tile.
       </p>
 
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
@@ -115,7 +121,18 @@ export default function SitesPage() {
           {selected && selectedSite ? (
             <SitesPileDetailPanel pile={selected} site={selectedSite} />
           ) : visiblePiles.length === 0 ? (
-            <p className="text-muted-foreground">No piles match this filter.</p>
+            <div className="flex flex-col gap-3">
+              <p className="text-muted-foreground m-0">No piles match this filter.</p>
+              {statusFilter !== "all" ? (
+                <button
+                  type="button"
+                  onClick={handleShowAllPilesClick}
+                  className="text-foreground border-border bg-background hover:bg-card focus-visible:ring-accent self-start rounded-control border px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                >
+                  Show all piles
+                </button>
+              ) : null}
+            </div>
           ) : (
             <p className="text-muted-foreground">Select a pile to view sensors.</p>
           )}

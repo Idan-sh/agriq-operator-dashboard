@@ -1,7 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
-import { PANEL_MOTION_TRANSITION } from "../ui/motionShared";
+import { PANEL_MOTION_TRANSITION, REDUCED_MOTION_TRANSITION } from "../ui/motionShared";
 
 const LISTBOX_SLIDE_PX = 10;
 
@@ -30,6 +30,8 @@ export default function DropdownSelect({
   const listboxId = `${id}-listbox`;
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const reducedMotion = useReducedMotion();
+  const listTransition = reducedMotion ? REDUCED_MOTION_TRANSITION : PANEL_MOTION_TRANSITION;
 
   const displayLabel = useMemo(
     () => options.find((o) => o.value === value)?.label ?? "",
@@ -108,7 +110,7 @@ export default function DropdownSelect({
             initial={{ opacity: 0, y: -LISTBOX_SLIDE_PX }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -LISTBOX_SLIDE_PX }}
-            transition={PANEL_MOTION_TRANSITION}
+            transition={listTransition}
             className="border-border bg-card absolute left-0 right-0 top-full z-30 mt-1 max-h-60 overflow-auto rounded-control border py-1 shadow-panel"
           >
             {options.map((opt) => {

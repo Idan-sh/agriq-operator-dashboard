@@ -11,8 +11,10 @@ export default function AlertsPage() {
         <div>
           <h1 className="text-foreground text-2xl font-semibold tracking-tight">Alerts</h1>
           <p className="text-muted-foreground mt-1 max-w-2xl text-sm leading-relaxed">
-            Open issues across piles. Sort columns from the table headers, filter by severity, location,
-            or sensors, then expand next steps when you are ready to act.
+            Open issues across piles. To triage quickly, use{" "}
+            <span className="text-foreground font-medium">Severity</span> or the filters first. Sort
+            any column from the table headers, then open <span className="text-foreground font-medium">Next steps</span>{" "}
+            when you are ready to act.
           </p>
         </div>
       </div>

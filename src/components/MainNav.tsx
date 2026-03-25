@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 
 const SEGMENT_TAP = { scale: 0.94 as const };
@@ -11,13 +11,21 @@ type MainNavProps = {
 };
 
 export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps) {
+  const reducedMotion = useReducedMotion();
+  const tapTransition = reducedMotion ? { duration: 0 } : SEGMENT_TAP_TRANSITION;
+  const pillTransition = reducedMotion ? { duration: 0 } : PILL_LAYOUT_TRANSITION;
+
   return (
     <nav
       className="border-border flex flex-wrap items-center gap-3 border-l pl-6 max-sm:w-full max-sm:border-l-0 max-sm:border-t max-sm:pt-2 max-sm:pl-0"
       aria-label="Main"
     >
       <div className="inline-flex flex-wrap items-center gap-3">
-        <motion.div className="inline-block" whileTap={SEGMENT_TAP} transition={SEGMENT_TAP_TRANSITION}>
+        <motion.div
+          className="inline-block"
+          whileTap={reducedMotion ? undefined : SEGMENT_TAP}
+          transition={tapTransition}
+        >
           <NavLink
             to="/"
             end
@@ -36,7 +44,7 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
                   <motion.div
                     layoutId="main-nav-active"
                     className="border-border bg-background group-hover:bg-accent-soft absolute inset-0 rounded-control border transition-colors duration-150"
-                    transition={PILL_LAYOUT_TRANSITION}
+                    transition={pillTransition}
                     aria-hidden
                   />
                 ) : null}
@@ -46,7 +54,11 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
           </NavLink>
         </motion.div>
 
-        <motion.div className="inline-block" whileTap={SEGMENT_TAP} transition={SEGMENT_TAP_TRANSITION}>
+        <motion.div
+          className="inline-block"
+          whileTap={reducedMotion ? undefined : SEGMENT_TAP}
+          transition={tapTransition}
+        >
           <NavLink
             to="/alerts"
             aria-label={alertsNavAriaLabel}
@@ -65,7 +77,7 @@ export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps
                   <motion.div
                     layoutId="main-nav-active"
                     className="border-border bg-background group-hover:bg-accent-soft absolute inset-0 rounded-control border transition-colors duration-150"
-                    transition={PILL_LAYOUT_TRANSITION}
+                    transition={pillTransition}
                     aria-hidden
                   />
                 ) : null}

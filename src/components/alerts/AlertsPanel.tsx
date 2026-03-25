@@ -242,6 +242,10 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
     });
   }, []);
 
+  const handleResetFiltersClick = useCallback(() => {
+    setFilters(defaultFilters);
+  }, [defaultFilters]);
+
   if (alerts.length === 0) {
     return <p className="text-muted-foreground text-sm">No active alerts.</p>;
   }
@@ -259,9 +263,22 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
       />
 
       {displayedAlerts.length === 0 ? (
-        <p className="text-muted-foreground text-sm">No alerts match your filters.</p>
+        <div className="flex flex-col items-start gap-3">
+          <p className="text-muted-foreground m-0 text-sm">No alerts match your filters.</p>
+          <button
+            type="button"
+            onClick={handleResetFiltersClick}
+            className="text-foreground border-border bg-background hover:bg-card focus-visible:ring-accent rounded-control border px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            Reset filters
+          </button>
+        </div>
       ) : (
-        <div className="border-border overflow-x-auto rounded-surface border bg-background">
+        <div>
+          <p className="text-muted-foreground mb-2 text-sm sm:hidden">
+            Swipe sideways to see all columns.
+          </p>
+          <div className="border-border overflow-x-auto rounded-surface border bg-background">
           <table className="w-full min-w-[42rem] border-collapse text-left">
             <caption className="sr-only">
               Active alerts by severity, location, and affected sensors. Use column headers to sort.
@@ -304,6 +321,7 @@ export default function AlertsPanel({ alerts }: AlertsPanelProps) {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

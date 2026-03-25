@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Monitor, Moon, Sun, type LucideIcon } from "lucide-react";
 import { useCallback, type MouseEvent } from "react";
 import type { ThemePreference } from "../types";
@@ -20,6 +20,7 @@ const OPTIONS: {
 
 export default function ThemeSelect() {
   const { preference, setPreference } = useTheme();
+  const reducedMotion = useReducedMotion();
 
   const handleThemeButtonClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -48,14 +49,22 @@ export default function ThemeSelect() {
               className={`group relative z-10 flex min-w-[2.5rem] items-center justify-center rounded-control px-2.5 py-2 outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:min-w-[2.75rem] sm:px-3 ${
                 selected ? "" : "hover:bg-accent-soft"
               }`}
-              whileTap={{ scale: 0.88 }}
-              transition={{ type: "spring", stiffness: 520, damping: 32 }}
+              whileTap={reducedMotion ? undefined : { scale: 0.88 }}
+              transition={
+                reducedMotion
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 520, damping: 32 }
+              }
             >
               {selected ? (
                 <motion.div
                   layoutId="theme-segment-active"
                   className="border-border bg-background group-hover:bg-accent-soft absolute inset-0 rounded-control border transition-colors duration-150"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  transition={
+                    reducedMotion
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 400, damping: 30 }
+                  }
                   aria-hidden
                 />
               ) : null}
@@ -66,7 +75,11 @@ export default function ThemeSelect() {
                   opacity: selected ? 1 : 0.45,
                   scale: selected ? 1 : 0.92
                 }}
-                transition={{ type: "spring", stiffness: 450, damping: 28 }}
+                transition={
+                  reducedMotion
+                    ? { duration: 0 }
+                    : { type: "spring", stiffness: 450, damping: 28 }
+                }
               >
                 <Icon
                   className={`size-[1.125rem] sm:size-5 ${

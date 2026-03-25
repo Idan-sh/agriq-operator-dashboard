@@ -1,6 +1,9 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { createPortal } from "react-dom";
-import { PANEL_MOTION_TRANSITION } from "../ui/motionShared";
+import {
+  PANEL_MOTION_TRANSITION,
+  REDUCED_MOTION_TRANSITION
+} from "../ui/motionShared";
 import {
   useCallback,
   useEffect,
@@ -8,6 +11,7 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode
 } from "react";
 
@@ -16,13 +20,27 @@ export type TooltipProps = {
   children: ReactNode;
 };
 
-/** Portal tooltip; position via refs so scroll/resize does not replace the `motion` node. */
+/** Portal tooltip: hover on fine pointers; tap to toggle on touch; respects reduced motion. */
 export default function Tooltip({ content, children }: TooltipProps) {
   const tooltipId = useId();
   const triggerRef = useRef<HTMLSpanElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const reducedMotion = useReducedMotion();
+
+  const [canHover, setCanHover] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(hover: hover)").matches : true
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover)");
+    const sync = () => setCanHover(mq.matches);
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const transition = reducedMotion ? REDUCED_MOTION_TRANSITION : PANEL_MOTION_TRANSITION;
 
   const updatePosition = useCallback(() => {
     const el = triggerRef.current;
@@ -63,15 +81,47 @@ export default function Tooltip({ content, children }: TooltipProps) {
 
   useEffect(() => {
     if (!open) return;
-    const onKeyDown = (e: KeyboardEvent) => {
+    const onKeyDown = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  const handleMouseEnter = useCallback(() => setOpen(true), []);
-  const handleMouseLeave = useCallback(() => setOpen(false), []);
+  useEffect(() => {
+    if (!open || canHover) return;
+    const handlePointerDown = (e: PointerEvent) => {
+      const el = triggerRef.current;
+      const layer = layerRef.current;
+      if (!el || !layer) return;
+      if (el.contains(e.target as Node) || layer.contains(e.target as Node)) return;
+      setOpen(false);
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [open, canHover]);
+
+  const handleMouseEnter = useCallback(() => {
+    if (canHover) setOpen(true);
+  }, [canHover]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (canHover) setOpen(false);
+  }, [canHover]);
+
+  const handleTriggerClick = useCallback(() => {
+    if (!canHover) setOpen((o) => !o);
+  }, [canHover]);
+
+  const handleTriggerKeyDown = useCallback(
+    (e: ReactKeyboardEvent<HTMLSpanElement>) => {
+      if (!canHover && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        setOpen((o) => !o);
+      }
+    },
+    [canHover]
+  );
 
   return (
     <>
@@ -79,8 +129,16 @@ export default function Tooltip({ content, children }: TooltipProps) {
         ref={triggerRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={handleTriggerClick}
+        onKeyDown={handleTriggerKeyDown}
+        tabIndex={canHover ? undefined : 0}
+        role={canHover ? undefined : "button"}
         aria-describedby={open ? tooltipId : undefined}
-        className="text-foreground cursor-help underline decoration-dotted decoration-border underline-offset-2"
+        aria-expanded={canHover ? undefined : open}
+        className={[
+          "text-foreground underline decoration-dotted decoration-border underline-offset-2",
+          canHover ? "cursor-help" : "cursor-pointer rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        ].join(" ")}
       >
         {children}
       </span>
@@ -93,10 +151,10 @@ export default function Tooltip({ content, children }: TooltipProps) {
               id={tooltipId}
               role="tooltip"
               className="pointer-events-none fixed z-[100]"
-              initial={{ opacity: 0, scale: 0.96 }}
+              initial={reducedMotion ? false : { opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={PANEL_MOTION_TRANSITION}
+              exit={reducedMotion ? undefined : { opacity: 0, scale: 0.96 }}
+              transition={transition}
             >
               <div
                 ref={innerRef}

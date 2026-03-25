@@ -43,6 +43,10 @@ export default function SitesPileList({
     [onPileSelect]
   );
 
+  const handleShowAllPilesClick = useCallback(() => {
+    onStatusFilterChange("all");
+  }, [onStatusFilterChange]);
+
   return (
     <div className="flex flex-col gap-3">
       <h2 className="text-foreground mb-0 text-base font-medium">Storage piles</h2>
@@ -90,7 +94,18 @@ export default function SitesPileList({
         })}
       </div>
       {piles.length === 0 ? (
-        <p className="text-muted-foreground m-0 text-sm">No piles match this filter.</p>
+        <div className="flex flex-col gap-3">
+          <p className="text-muted-foreground m-0 text-sm">No piles match this filter.</p>
+          {statusFilter !== "all" ? (
+            <button
+              type="button"
+              onClick={handleShowAllPilesClick}
+              className="text-foreground border-border bg-background hover:bg-card focus-visible:ring-accent self-start rounded-control border px-3 py-2 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              Show all piles
+            </button>
+          ) : null}
+        </div>
       ) : (
         <ul className="m-0 flex list-none flex-col gap-2 p-0" onClick={handlePileListClick}>
           {piles.map((p) => {
