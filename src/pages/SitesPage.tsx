@@ -84,11 +84,11 @@ export default function SitesPage() {
         <span className="text-foreground font-medium">Storage site</span> is the facility. One{" "}
         <span className="text-foreground font-medium">cell</span> is a single storage room. A{" "}
         <span className="text-foreground font-medium">pile</span> is a grain stack in that cell.
-        Select a pile to see all thirty sensors (bottom, middle, top). Colored edges on a sensor tile
-        highlight readings that need attention (amber or red). Safe readings use a plain tile.
+        Select a pile to see all thirty sensors (bottom, middle, top). Colored edges on a sensor
+        tile highlight readings that need attention (amber or red). Safe readings use a plain tile.
       </p>
       <p className="text-muted-foreground mb-8 max-w-2xl border-border border-l-2 pl-3 text-xs leading-relaxed">
-        <span className="text-foreground font-medium">How to read the numbers</span> — Each value is
+        <span className="text-foreground font-medium">How to read the numbers</span> - Each value is
         checked against safe limits. Stronger-looking text means a more serious reading. On a
         computer, hover a dotted value for the band name (OK, warning, or critical). On a phone or
         tablet, tap the value instead. Sensors that need attention may show a short message in the
