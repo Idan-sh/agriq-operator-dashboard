@@ -1,9 +1,4 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { NavLink } from "react-router-dom";
-
-const SEGMENT_TAP = { scale: 0.94 as const };
-const SEGMENT_TAP_TRANSITION = { type: "spring" as const, stiffness: 520, damping: 32 };
-const PILL_LAYOUT_TRANSITION = { type: "spring" as const, stiffness: 400, damping: 30 };
+import MainNavLinks from "./MainNavLinks";
 
 type MainNavProps = {
   alertCount: number;
@@ -11,92 +6,16 @@ type MainNavProps = {
 };
 
 export default function MainNav({ alertCount, alertsNavAriaLabel }: MainNavProps) {
-  const reducedMotion = useReducedMotion();
-  const tapTransition = reducedMotion ? { duration: 0 } : SEGMENT_TAP_TRANSITION;
-  const pillTransition = reducedMotion ? { duration: 0 } : PILL_LAYOUT_TRANSITION;
-
   return (
     <nav
       className="border-border flex flex-wrap items-center gap-2 border-l pl-4 max-sm:w-full max-sm:border-l-0 max-sm:border-t max-sm:pt-1.5 max-sm:pl-0"
       aria-label="Main"
     >
-      <div className="inline-flex flex-wrap items-center gap-2">
-        <motion.div
-          className="inline-block"
-          whileTap={reducedMotion ? undefined : SEGMENT_TAP}
-          transition={tapTransition}
-        >
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) =>
-              [
-                "group relative z-10 inline-flex min-h-9 items-center rounded-control px-2.5 py-1.5 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                isActive
-                  ? "text-foreground"
-                  : "text-foreground hover:bg-accent-soft"
-              ].join(" ")
-            }
-          >
-            {({ isActive }) => (
-              <>
-                {isActive ? (
-                  <motion.div
-                    layoutId="main-nav-active"
-                    className="border-border bg-background group-hover:bg-accent-soft absolute inset-0 rounded-control border transition-colors duration-150"
-                    transition={pillTransition}
-                    aria-hidden
-                  />
-                ) : null}
-                <span className="relative z-10">Sites</span>
-              </>
-            )}
-          </NavLink>
-        </motion.div>
-
-        <motion.div
-          className="inline-block"
-          whileTap={reducedMotion ? undefined : SEGMENT_TAP}
-          transition={tapTransition}
-        >
-          <NavLink
-            to="/alerts"
-            aria-label={alertsNavAriaLabel}
-            className={({ isActive }) =>
-              [
-                "group relative z-10 inline-flex min-h-9 items-center gap-2 rounded-control px-2.5 py-1.5 text-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                isActive
-                  ? "text-foreground"
-                  : "text-foreground hover:bg-accent-soft"
-              ].join(" ")
-            }
-          >
-            {({ isActive }) => (
-              <>
-                {isActive ? (
-                  <motion.div
-                    layoutId="main-nav-active"
-                    className="border-border bg-background group-hover:bg-accent-soft absolute inset-0 rounded-control border transition-colors duration-150"
-                    transition={pillTransition}
-                    aria-hidden
-                  />
-                ) : null}
-                <span className="relative z-10 flex items-center gap-2">
-                  <span>Alerts</span>
-                  {alertCount > 0 ? (
-                    <span
-                      className="border-border bg-card text-muted-foreground inline-flex min-w-[1.25rem] items-center justify-center rounded-full border px-1.5 py-0.5 text-xs font-medium tabular-nums"
-                      aria-hidden
-                    >
-                      {alertCount}
-                    </span>
-                  ) : null}
-                </span>
-              </>
-            )}
-          </NavLink>
-        </motion.div>
-      </div>
+      <MainNavLinks
+        variant="desktop"
+        alertCount={alertCount}
+        alertsNavAriaLabel={alertsNavAriaLabel}
+      />
     </nav>
   );
 }
