@@ -1,5 +1,5 @@
 /**
- * Task 2 mock data - values from the agriQ take-home PDF (Emek North/South/East/West).
+ * Task 2 mock data - values from the take-home PDF (Emek North/South/East/West).
  */
 
 import type { OperatorAlert, PileMock, SensorLayer, SensorReading, SiteMock } from "../types";

@@ -36,7 +36,7 @@ New folders under `src/` should stay **lowercase** (`pages`, `types`, `data`, `t
 - **Boolean** variables: **`is` / `has` / `should`** - `isActive`, `hasAlerts`, `shouldRefetch`.
 - **Constants** (immutable, module-level): **SCREAMING_SNAKE** - `THEME_STORAGE_KEY`, `MOCK_PILES`. Prefer one object or `as const` for grouped config if it reads better.
 
-## Domain (agriQ)
+## Domain (Pilewatch / grain storage)
 
 - **Sensor IDs**: assignment format **`S01`-`S30`** (zero-padded), stored as **strings**.
 - **Pile slugs / route ids**: **kebab-case** - `emek-north`, `emek-south` (match `PileMock.id`).

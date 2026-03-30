@@ -1,11 +1,11 @@
 ---
-description: agriQ operator dashboard - stack, goals, and source layout
+description: Pilewatch operator dashboard - stack, goals, and source layout
 alwaysApply: true
 ---
 
 # Project context
 
-This repo is the **Task 2 - Operator Dashboard** for the agriQ take-home: a **React SPA** with **mock data only** (no backend in scope for Task 2).
+This repo is the **Task 2 - Operator Dashboard** take-home: a **React SPA** with **mock data only** (no backend in scope for Task 2).
 
 ## Stack
 

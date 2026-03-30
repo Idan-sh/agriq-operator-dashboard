@@ -1,5 +1,5 @@
 /**
- * Grain pile reading bands from the agriQ assignment (temperature °C, moisture %).
+ * Grain pile reading bands from the take-home spec (temperature °C, moisture %).
  * Used for operator-facing color coding on the dashboard.
  */
 

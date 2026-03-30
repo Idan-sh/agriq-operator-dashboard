@@ -73,7 +73,7 @@ export default function App() {
           <div className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1.5">
             <div className="flex min-w-0 shrink-0 flex-col gap-0.5">
               <p className="font-display text-foreground m-0 text-xl font-bold tracking-tight sm:text-[1.375rem]">
-                agriQ Operator
+                Pilewatch Operator
               </p>
             </div>
             <MainNav alertCount={alertCount} alertsNavAriaLabel={alertsNavAriaLabel} />

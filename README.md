@@ -1,4 +1,4 @@
-# agriQ Operator Dashboard
+# Pilewatch Operator Dashboard
 
 Web UI for grain storage staff to monitor **sites**, **piles**, **live-style sensor readings**, and **open alerts** in one place. The app is a single-page React client with **mock data** so layouts and workflows can be reviewed without connecting to real hardware or APIs. Operators can switch **light**, **dark**, or **system** theme; the choice persists in the browser.
 

@@ -3,7 +3,7 @@ description: UI consistency - radii, elevation, typography, colors, spacing for 
 alwaysApply: false
 ---
 
-# UI design system (agriQ Operator Dashboard)
+# UI design system (Pilewatch Operator Dashboard)
 
 Semantic tokens live in [`src/index.css`](src/index.css). Use **named** Tailwind utilities that map to those tokens (e.g. `rounded-panel`, `shadow-panel`) instead of mixing arbitrary `rounded-xl` / `shadow-sm` unless you add a new tier here.
 
